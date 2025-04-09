@@ -1,0 +1,44 @@
+#version: "3.9"
+#services:
+#  k3s:
+#    build: .                   # Собрать образ из текущей директории (где Dockerfile)
+#    container_name: k3s-cluster
+#    privileged: true           # Необходимо для запуска кластера внутри
+#    ports:
+#      - "6443:6443"            # Проброс API Kubernetes
+#    volumes:
+#      - "./k3s-data:/var/lib/rancher/k3s"   # (опционально) сохранять данные кластера между перезапусками
+#      - ./manifests:/manifests
+
+version: '3'
+
+services:
+  k3s-server:
+    image: rancher/k3s:v1.32.3-k3s1
+    command: server
+    privileged: true
+    environment:
+      - K3S_KUBECONFIG_OUTPUT=/output/kubeconfig.yaml
+      - K3S_KUBECONFIG_MODE=666
+    volumes:
+      - k3s-server:/var/lib/rancher/k3s
+      - ./manifests:/manifests
+    ports:
+      - "6443:6443" # Kubernetes API Server
+      - "80:80"     # Ingress controller port 80
+      - "443:443"   # Ingress controller port 443
+
+  k3s-agent:
+    image: rancher/k3s:v1.32.3-k3s1
+    privileged: true
+    depends_on:
+      - k3s-server
+    environment:
+      - K3S_URL=https://k3s-server:6443
+      - K3S_TOKEN=your_cluster_secret
+    volumes:
+      - k3s-agent:/var/lib/rancher/k3s
+
+volumes:
+  k3s-server:
+  k3s-agent:

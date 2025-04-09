@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nginx-config
+  namespace: app
+data:
+  nginx.conf: |
+    server {
+      listen 80;
+      server_name localhost;
+      location /foo {
+        root /usr/share/nginx/html;
+        index index.html;
+      }
+    }
+  index.html: |
+    <html><body><h1>Welcome to our great website.</h1> And thank you for fixing it 🤟</body></html>
