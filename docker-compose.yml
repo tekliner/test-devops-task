@@ -1,15 +1,3 @@
-#version: "3.9"
-#services:
-#  k3s:
-#    build: .                   # Собрать образ из текущей директории (где Dockerfile)
-#    container_name: k3s-cluster
-#    privileged: true           # Необходимо для запуска кластера внутри
-#    ports:
-#      - "6443:6443"            # Проброс API Kubernetes
-#    volumes:
-#      - "./k3s-data:/var/lib/rancher/k3s"   # (опционально) сохранять данные кластера между перезапусками
-#      - ./manifests:/manifests
-
 version: '3'
 
 services:
