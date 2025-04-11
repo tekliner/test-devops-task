@@ -29,7 +29,7 @@ The application is a Nginx server hosted on Kubernetes. You need to set up the K
 4. **Access the running container:**
 
    ```bash
-   docker compose exec k3s-server bash
+   docker compose exec k3s-server sh
    ```
 
 5. **Apply the Kubernetes manifests using Kustomize inside the container:**
