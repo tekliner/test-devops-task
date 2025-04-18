@@ -23,7 +23,7 @@ The application is a Nginx server hosted on Kubernetes. You need to set up the K
 3. **Add an entry to your hosts file to route traffic inside the local Kubernetes cluster:**
 
    ```bash
-   echo "127.0.0.1 test-domain.local" | sudo tee -a /etc/hosts
+   echo "$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' test-devops-task-k3s-agent-1) test-domain.local" | sudo tee -a /etc/hosts
    ```
 
 4. **Access the running container:**
